@@ -73,4 +73,32 @@ public class Contest34 {
         }
         return res;
     }
+
+    /*
+     *600. Non-negative Integers without Consecutive Ones
+     * 这道题还是一道模拟题吧，不过模拟的条件需要我们自己找，这道题实际是一个斐波那契序列
+     * 如要找小于 11111 比特不连续个数， 可以找 00000 -- 01111  和 10000 --- 11000
+     * 也就是5个比特位的等于4个比特位的和3个比特位的和，我们可以用动态规划来推斐波那契数列，
+     * 而斐波那契数列初始值dp[1] = 2, dp[3] = 3; dp[0] = 1, 最后如果输入的数符合条件还要加1
+     * */
+    public int findIntegers(int num) {
+        int[] dp = new int[32];
+        dp[1] = 2;
+        dp[0] = 1;
+        for (int i = 2; i < 32; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        int k = 30, pre_bit = 0, res = 0;
+        while (k >= 0) {
+            if (((1 << k) & num) != 0) {
+                res += dp[k];
+                if (pre_bit == 1) return res;
+                pre_bit = 1;
+            } else {
+                pre_bit = 0;
+            }
+            k--;
+        }
+        return res + 1;
+    }
 }
