@@ -54,5 +54,36 @@ public class Contest33 {
         return (int) (Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2));
     }
 
+    public static void main(String[] args) {
+        new Contest33().fractionAddition("1/3-1/2");
+    }
+
+    /*
+     * 592. Fraction Addition and Subtraction
+     *这还是一道模拟题吧，计算表达式一般要用到栈，但这道题没有优先级不用栈
+     * 就可以，这道题按照一般加减法就行，不过是分数的加减法，但和整数但加减法
+     * 没多大的区别，也就是遍历每一个数字，把它们加起来就行。不过分数的加减法要
+     * 特殊处理
+     * */
+    public String fractionAddition(String expression) {
+        String[] arr = expression.split("(?=[-,+])");
+        int fenzi = 0, fenmu = 1;
+        for (String str : arr) {
+            String[] cur = str.split("/");
+            int curFenzi = Integer.valueOf(cur[0]);
+            int curFenmu = Integer.valueOf(cur[1]);
+            fenzi = fenzi * curFenmu + curFenzi * fenmu;
+            fenmu = fenmu * curFenmu;
+            int curGcd = gcd(fenzi, fenmu);
+            fenzi /= curGcd;
+            fenmu /= curGcd;
+        }
+        String sign = fenmu < 0 || fenzi < 0 ? "-" : "";
+        return sign + Math.abs(fenzi) + "/" + Math.abs(fenmu);
+    }
+
+    public int gcd(int a, int b) {
+        return a % b == 0 ? b : gcd(b, a % b);
+    }
 
 }
