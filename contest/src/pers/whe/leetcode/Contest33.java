@@ -1,3 +1,5 @@
+package pers.whe.leetcode;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -85,5 +87,6 @@ public class Contest33 {
     public int gcd(int a, int b) {
         return a % b == 0 ? b : gcd(b, a % b);
     }
+
 
 }
