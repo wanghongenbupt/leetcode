@@ -1,6 +1,6 @@
 package pers.whe.leetcode;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class Contest32 {
 
@@ -85,5 +85,69 @@ public class Contest32 {
             }
         }
         return true;
+    }
+
+    /*
+     * 587. Erect the Fence
+     * 这道题是求多个点所在的凸包，可以分多步来求
+     * 1 找到凸包所在的一个点，可以求最左边的点就行
+     * 2 以第一个点为基准，逆时针找到第二个点，如第一个点为q, 第二个点为m，其他点为h,
+     * 则向量 qh, hm 的叉乘一定为负的，而 qm,  mh 的叉乘一定为正的，这样可以找到第二点，
+     * 3 以第二步为基准，找到其他点，直到到达第一个点3=为止
+     * */
+    public List<Point> outerTrees(Point[] points) {
+        if (points.length < 3) {
+            return Arrays.asList(points);
+        }
+        int start = 0;
+        for (int i = 0; i < points.length; i++) {
+            if (points[i].x < points[start].x) {
+                start = i;
+            }
+        }
+        int q = start, m;
+        Set<Point> res = new HashSet<>();
+        do {
+            res.add(points[q]);
+            m = (q + 1) % points.length;
+            for (int i = 0; i < points.length; i++) {
+                if (Counterclock(points[q], points[i], points[m]) == 1) {
+                    m = i;
+                    i = 0;
+                }
+            }
+            for (int i = 0; i < points.length; i++) {
+                if (i != q && i != m && Counterclock(points[q], points[i], points[m]) == 0) {
+                    res.add(points[i]);
+                }
+            }
+            q = m;
+        } while (q != start);
+        return new ArrayList<>(res);
+    }
+
+    private int Counterclock(Point q, Point m, Point h) {
+        int qmx = m.x - q.x;
+        int qmy = m.y - m.y;
+        int mhx = h.x - m.x;
+        int mhy = h.y - m.y;
+        int cur = qmx * mhy - qmy * mhx;
+        if (cur == 0) return 0;
+        return cur > 0 ? 1 : -1;
+    }
+
+    class Point {
+        int x;
+        int y;
+
+        Point() {
+            x = 0;
+            y = 0;
+        }
+
+        Point(int a, int b) {
+            x = a;
+            y = b;
+        }
     }
 }
