@@ -1,4 +1,4 @@
-package pers.whe.leetcode;
+package pers.whe.code.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;

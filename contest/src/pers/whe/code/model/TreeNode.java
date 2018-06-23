@@ -1,4 +1,4 @@
-package pers.whe.leetcode.model;
+package pers.whe.code.model;
 
 public class TreeNode {
 

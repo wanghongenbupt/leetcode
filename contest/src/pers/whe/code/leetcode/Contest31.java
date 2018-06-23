@@ -1,6 +1,6 @@
-package pers.whe.leetcode;
+package pers.whe.code.leetcode;
 
-import pers.whe.leetcode.model.TreeNode;
+import pers.whe.code.model.TreeNode;
 
 import java.util.HashSet;
 import java.util.Set;
