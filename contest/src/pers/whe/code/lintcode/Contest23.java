@@ -79,4 +79,32 @@ public class Contest23 {
         return res;
     }
 
+    /*
+     * 1456. Word Synthesis Problem
+     * 这道题用递归，递归的定义就是target中的字符是否能用words中没用到的表示。
+     * 1 结束条件 target 中字符数为0，表示可以
+     * 2 遍历过程， 每遍历一个减去target中的一个字符
+     * */
+    public boolean matchFunction(String target, String[] words) {
+        return dfs(target, words, new boolean[words.length]);
+    }
+
+    private boolean dfs(String target, String[] words, boolean[] see) {
+        if (target.length() == 0) {
+            return true;
+        }
+
+        for (int i = 0; i < words.length; i++) {
+            if (see[i]) continue;
+            if (words[i].indexOf(target.charAt(0)) != -1) {
+                see[i] = true;
+                if (dfs(target.substring(1), words, see)) {
+                    return true;
+                }
+                see[i] = false;
+            }
+        }
+        return false;
+    }
+
 }
