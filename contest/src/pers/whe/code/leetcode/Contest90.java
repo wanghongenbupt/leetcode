@@ -1,5 +1,7 @@
 package pers.whe.code.leetcode;
 
+import java.util.Arrays;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 public class Contest90 {
@@ -144,5 +146,29 @@ public class Contest90 {
         }
     }
 
-
+    /*
+     * 857. Minimum Cost to Hire K Workers
+     * 这道题主要求个数为K的员工，期望薪资和质量乘最小值。
+     * 可以先按期望薪资排名，并计算前面K个员工的薪资。
+     * */
+    public double mincostToHireWorkers(int[] q, int[] w, int K) {
+        double[][] works = new double[q.length][2];
+        for (int i = 0; i < q.length; i++) {
+            works[i] = new double[]{(double) (w[i]) / q[i], (double) q[i]};
+        }
+        Arrays.sort(works, (a, b) -> Double.compare(a[0], b[0]));
+        double res = Double.MAX_VALUE, sumq = 0.0;
+        PriorityQueue<Double> queue = new PriorityQueue<>();
+        for (double[] work : works) {
+            sumq += q[1];
+            queue.add(-work[1]);
+            if (queue.size() > K) {
+                sumq += queue.poll();
+            }
+            if (queue.size() == K) {
+                res = Math.min(res, sumq * work[0]);
+            }
+        }
+        return res;
+    }
 }
