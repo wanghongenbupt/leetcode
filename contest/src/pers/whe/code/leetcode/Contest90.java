@@ -160,7 +160,7 @@ public class Contest90 {
         double res = Double.MAX_VALUE, sumq = 0.0;
         PriorityQueue<Double> queue = new PriorityQueue<>();
         for (double[] work : works) {
-            sumq += q[1];
+            sumq += work[1];
             queue.add(-work[1]);
             if (queue.size() > K) {
                 sumq += queue.poll();
