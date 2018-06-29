@@ -44,4 +44,31 @@ public class Contest26 {
         }
         return l1 == s1.length();
     }
+
+    /*
+     * 547. Friend Circles
+     * 这道题让我们找多少组朋友，已经给了我们两个人之间的关系，
+     * 我们可以用dfs遍历一个人有多少朋友，其中用一个数组代表是否遍历过，
+     * 来降低复杂度
+     * */
+    public int findCircleNum(int[][] M) {
+        int res = 0;
+        boolean[] see = new boolean[M.length];
+        for (int i = 0; i < M.length; i++) {
+            if (!see[i]) {
+                dfs(i, M, see);
+                res++;
+            }
+        }
+        return res;
+    }
+
+    private void dfs(int i, int[][] m, boolean[] see) {
+        see[i] = true;
+        for (int j = 0; j < m.length; j++) {
+            if (!see[j] && m[i][j] == 1) {
+                dfs(j, m, see);
+            }
+        }
+    }
 }
