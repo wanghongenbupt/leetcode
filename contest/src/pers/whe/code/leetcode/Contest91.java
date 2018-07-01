@@ -109,6 +109,7 @@ public class Contest91 {
      * 862. Shortest Subarray with Sum at Least K
      * 这道题让我们找一个数组的连续子序列，和最小为k，求序列的最小长度。
      * 我们用对列记录升序的值，为什么要记录升序的索引，如过降序的话，和值为负，
+     * sum[deque.getFirst()] <= sum[i] - k,
      * 在来讨论为什么要加入当前索引，再来看一下当sum[i] <= sum[deque.getLast()】
      * 为什么要pop出去，B[i] - B[d[0]] 可以得到更小的len，更大的sum
      * */
@@ -120,7 +121,7 @@ public class Contest91 {
         }
         Deque<Integer> deque = new ArrayDeque<>();
         for (int i = 0; i < n + 1; i++) {
-            while (deque.size() > 0 && k <= sum[i] - sum[deque.getFirst()])
+            while (deque.size() > 0 && sum[deque.getFirst()] <= sum[i] - k) ;
                 res = Math.min(res, i - deque.pollFirst());
             while (deque.size() > 0 && sum[i] <= sum[deque.getLast()]) {
                 deque.pollLast();
