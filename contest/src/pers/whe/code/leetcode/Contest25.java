@@ -44,4 +44,35 @@ public class Contest25 {
         param[1] = Integer.parseInt(str.substring(pos + 1, str.length() - 1));
         return param;
     }
+
+    /*
+     * 546. Remove Boxes
+     * 这道题求最大，最小值问题，一般用dp来解，
+     * 1 状态 dp[i][j][k] 区间i到j中左边有k个和arr[i]值一样最大值结果。
+     * 2 状态转换  dp[i][j][k] = max(dp[l][m-1][0], dp[m][r][k+1])
+     * 3 结果  dp[0][n-1][0]
+     * */
+    public int removeBoxes(int[] boxes) {
+        int n = boxes.length;
+        int[][][] dp = new int[n][n][n];
+        return dfs(boxes, 0, n - 1, 0, dp);
+    }
+
+    private int dfs(int[] boxes, int l, int r, int k, int[][][] dp) {
+        if (l > r) return 0;
+        if (dp[l][r][k] > 0) return dp[l][r][k];
+        int res = 0;
+        //  找到左边有多少个相同的
+        for (; l + 1 <= r && boxes[l] == boxes[l + 1]; l++, k++) ;
+        // 释放这些相同的
+        res += (k + 1) * (k + 1) + dfs(boxes, l + 1, r, 0, dp);
+        // 状态转换方程
+        for (int m = l + 1; m <= r; m++) {
+            if (boxes[l] == boxes[m]) {
+                res = Math.max(res, dfs(boxes, l + 1, m - 1, 0, dp) + dfs(boxes, m, r, k + 1, dp));
+            }
+        }
+        dp[l][r][k] = res;
+        return res;
+    }
 }
