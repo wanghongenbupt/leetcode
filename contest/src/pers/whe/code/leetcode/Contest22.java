@@ -24,4 +24,36 @@ public class Contest22 {
         }
         return res;
     }
+
+    /*
+     * 514. Freedom Trail
+     * 题目让我们转一个圆盘，12点钟对应的字符串连接起来为key，
+     * 我们可以用记忆话搜素来做，其中memo[i][j]表示key在第j个字符串，并且12点钟ring
+     * 所在第位置为i，
+     * */
+    public int findRotateSteps(String ring, String key) {
+        char[] rarr = ring.toCharArray();
+        char[] karr = key.toCharArray();
+        return dfs(rarr, karr, 0, 0, new int[rarr.length][karr.length]);
+    }
+
+    private int dfs(char[] ring, char[] tar, int tarIndex, int ringIndex, int[][] memo) {
+        if (tarIndex == tar.length) {
+            return 0;
+        }
+        if (memo[ringIndex][tarIndex] > 0) {
+            return memo[ringIndex][tarIndex];
+        }
+        int min = Integer.MAX_VALUE;
+        char c = tar[tarIndex];
+        for (int i = 0; i < ring.length; i++) {
+            if (c == ring[i]) {
+                int diff = Math.abs(i - ringIndex);
+                int distance = 1 + Math.min(diff, ring.length - diff) + dfs(ring, tar, tarIndex + 1, i, memo);
+                min = Math.min(min, distance);
+            }
+        }
+        memo[ringIndex][tarIndex] = min;
+        return min;
+    }
 }
