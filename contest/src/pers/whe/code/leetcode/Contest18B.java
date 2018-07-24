@@ -89,4 +89,48 @@ public class Contest18B {
         }
         return res;
     }
+
+    /*
+    * 498. Diagonal Traverse
+    * 这道题给了我们一种遍历数组的方式，让我们返回遍历的结果。
+    * 1 用0，和1 分别表示两个方向以便切换。
+    * 2 [-1, 1] 向上  [1, -1] 向下
+    *  有4种过界情况，要掉头
+    *  1 x >= m x = m - 1; y = y + 2; cur = 1 - cur;
+    *  2 y >= n x = x + 2; y = n - 1; cur = 1 - cur;
+    *  3 x < 0  x = 0; cur = 1 - cur;
+    *  4 y < 0  y = 0; cur = 1 - cur;
+    *  其中 情况 1和2， 1和4 可能同时出现，
+    *  但情况1就解决了情况，不可能走到下面，如果把3和4放前面可能错。
+    *  如 [[1,2],[3,4]] 这种情况把4放前面会错
+    * */
+    public int[] findDiagonalOrder(int[][] matrix) {
+        int m = matrix.length;
+        if (m == 0) {
+            return new int[0];
+        }
+        int[] res = new int[matrix.length * matrix[0].length];
+        int x = 0, y = 0;
+        int[][] d = {{-1, 1}, {1, -1}};
+        int cur = 0;
+        int  n = matrix[0].length;
+        for (int i = 0; i < m * n; i++) {
+            res[i] = matrix[x][y];
+            x = x + d[cur][0];
+            y = y + d[cur][1];
+            if (x >= m) {
+                x = m - 1; y = y + 2; cur = 1 - cur;
+            }
+            if (y >= n) {
+                x = x + 2; y = n - 1; cur = 1 - cur;
+            }
+            if (x < 0) {
+                x = 0; cur = 1 - cur;
+            }
+            if (y < 0) {
+                y = 0; cur = 1 - cur;
+            }
+        }
+        return res;
+    }
 }
