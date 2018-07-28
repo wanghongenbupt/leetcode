@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class Contest18A {
-    500. Keyboard Row
+    //500. Keyboard Row
     public String[] findWords(String[] words) {
         List<Character> row1 = Arrays.asList('q','w','e','r','t','y','u','i','o','p');
         List<Character> row2 = Arrays.asList('a','s','d','f','g','h','j','k','l');
