@@ -81,4 +81,39 @@ public class Contest95 {
         }
         return (int) (l % (long) (Math.pow(10, 9) + 7));
     }
+
+    /*
+     * 879. Profitable Schemes
+     * 这道题用动态规划，
+     * 1 状态： dp[i][j]   j个人获得i个利益的方法个数
+     * 2 动态方乘  newdp[minp][j + g] = (newdp[minp][j + g] + olddp[i][j]) % mod;
+     * 3 初始状态  dp[0][0] = 1;
+     *   由于是从0开始遍历的，我们要用以前的值，如果不用另一个的话会用到当前轮的值。
+     * */
+    public int profitableSchemes(int G, int P, int[] group, int[] profit) {
+        int[][] olddp = new int[P + 1][G + 1];
+        olddp[0][0] = 1;
+        int mod = (int) 1e9 + 7;
+        for (int k = 0; k < group.length; k++) {
+            int g = group[k], p = profit[k];
+            int[][] newdp = new int[P + 1][G + 1];
+            for (int i = 0; i <= P; i++) {
+                for (int j = 0; j <= G; j++) {
+                    newdp[i][j] = olddp[i][j];
+                }
+            }
+            for (int i = 0; i <= P; i++) {
+                for (int j = 0; j + g <= G; j++) {
+                    int minp = Math.min(P, i + p);
+                    newdp[minp][j + g] = (newdp[minp][j + g] + olddp[i][j]) % mod;
+                }
+            }
+            olddp = newdp;
+        }
+        int res = 0;
+        for (int i : olddp[P]) {
+            res = (res + i) % mod;
+        }
+        return res;
+    }
 }
