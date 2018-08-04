@@ -80,4 +80,32 @@ public class Contest18A {
         map.put(val, map.get(val) + 1);
         return val;
     }
+
+    /*
+    * 502. IPO
+    * 这道题给我们几个项目，项目包括资本和利润，如果我们手中的钱大于等于资本，就可以开始这个项目，
+    *  现在有 w资本，最多有k个项目，问最多能有少钱，用贪心法
+    *  1 找到现在满足的所有项目，找到最大利润项目，
+    *  2 循环k次，直到没有满足条件的项目
+    *
+    * */
+    public int findMaximizedCapital(int k, int W, int[] Profits, int[] Capital) {
+        PriorityQueue<int[]> min = new PriorityQueue<>((a,b)->a[1] - b[1]);
+        PriorityQueue<int[]> max = new PriorityQueue<>((a,b)->b[0] - a[0]);
+
+        for (int i = 0; i < Profits.length; i++) {
+            min.offer(new int[]{Profits[i], Capital[i]});
+        }
+
+        for (int i = 0; i < k; i++) {
+            while (!min.isEmpty() && min.peek()[1] <= W) {
+                max.offer(min.poll());
+            }
+            if (max.isEmpty()) {
+                break;
+            }
+            W += max.poll()[0];
+        }
+        return W;
+    }
 }
