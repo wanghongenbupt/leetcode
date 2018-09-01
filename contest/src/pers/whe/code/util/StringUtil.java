@@ -18,7 +18,7 @@ public class StringUtil {
     }
 
 
-    // 失配之前最长公共前后缀，前缀后一位地方
+    // 失配之前最长公共前后缀，前缀后一位地方 kmp 算法
     public static int[] next(String str) {
         int[] next = new int[str.length()];
         char[] strs = str.toCharArray();
