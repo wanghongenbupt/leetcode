@@ -1,4 +1,4 @@
-package pers.whe.code.leetcode.problem;
+package pers.whe.code.leetcode.problem.greedy;
 
 import java.util.ArrayList;
 import java.util.List;
