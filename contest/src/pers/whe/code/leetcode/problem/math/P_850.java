@@ -2,6 +2,7 @@ package pers.whe.code.leetcode.problem.math;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class P_850 {
@@ -10,14 +11,13 @@ public class P_850 {
     * */
     public int rectangleArea(int[][] rectangles) {
         int OPEN = 0, CLOSE = 1;
-        int mod = (int)10e9 + 7;
         int[][] events = new int[rectangles.length * 2][];
         int t = 0;
         for (int[] rect : rectangles) {
             events[t++] = new int[]{rect[1], OPEN, rect[0], rect[2]};
             events[t++] = new int[]{rect[3], CLOSE, rect[0], rect[2]};
         }
-        Arrays.sort(events, (a,b)->a[0] - b[0]);
+        Arrays.sort(events, (a,b)->Integer.compare(a[0], b[0]));
         List<int[]> active = new ArrayList<>();
         int cur_y = events[0][0];
         long res = 0;
@@ -33,16 +33,18 @@ public class P_850 {
             res += query * (y - cur_y);
             if (type == OPEN) {
                 active.add(new int[]{x1, x2});
+                Collections.sort(active, (a, b) -> Integer.compare(a[0], b[0]));
             } else {
                 for (int i = 0; i < active.size(); i++) {
                     if (active.get(i)[0] == x1 && active.get(i)[1] == x2) {
                         active.remove(i);
+                        break;
                     }
                 }
             }
             cur_y = y;
-            res %= mod;
         }
+        res %= 1_000_000_007;
         return (int)res;
     }
 }
