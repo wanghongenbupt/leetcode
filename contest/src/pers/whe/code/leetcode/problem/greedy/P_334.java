@@ -17,7 +17,7 @@ public class P_334 {
                 return true;
             }
         }
-        System.out.println("master");
+        System.out.println("masteffr");
         return false;
     }
 }
