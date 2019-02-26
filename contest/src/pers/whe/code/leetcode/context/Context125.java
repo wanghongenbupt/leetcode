@@ -110,41 +110,27 @@ public class Context125 {
         for (int[] lamp : lamps) {
             set.add(lamp[0] * N + lamp[1]);
         }
+        int[] dx = new int[]{0, -1, 1, 0, 0, -1, -1, 1, 1};
+        int[] dy = new int[]{0, 0, 0, -1, 1, 1, -1, 1, -1};
         int[] res = new int[queries.length];
         for (int i = 0; i < queries.length; i++) {
             Set<Integer> cur = new HashSet<>(set);
             int[] q = queries[i];
             for (int lamp : set) {
                 int x = lamp / N, y = lamp % N;
-                if (q[0] == x || q[1] == y || Math.abs(q[0] - x) == Math.abs(q[1] - y)) {
+                if (q[0] == x || q[1] == y || q[0] - x == q[1] - y || q[0] - x == y - q[1]) {
                     res[i] = 1;
-                } else {
-                    res[i] = 0;
                 }
-                remove(cur, q, N);
+                for (int k = 0; k < dx.length; k++) {
+                    int nx = q[0] + dx[k];
+                    int ny = q[1] + dy[k];
+                    if (nx >= 0 && nx < N && ny >= 0 && ny < N) {
+                        set.remove(nx * N + ny);
+                    }
+                }
+                set = cur;
             }
-            set = cur;
         }
         return res;
-    }
-
-    private void remove(Set<Integer> set, int[] q, int n) {
-        int[] dx = new int[]{0, -1, 1, 0, 0, -1, -1, 1, 1};
-        int[] dy = new int[]{0, 0, 0, -1, 1, 1, -1, 1, -1};
-        for (int i = 0; i < dx.length; i++) {
-            int nx = q[0] + dx[i];
-            int ny = q[1] + dy[i];
-            if (nx >= 0 && nx < n && ny >= 0 && ny < n) {
-                set.remove(nx * n + ny);
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        new Context125().findJudge(3, new int[][]{
-                new int[]{1, 3},
-                new int[]{2, 3},
-                //new int[]{3,1},
-        });
     }
 }
