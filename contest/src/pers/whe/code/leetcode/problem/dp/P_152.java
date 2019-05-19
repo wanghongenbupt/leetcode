@@ -1,18 +1,15 @@
 package pers.whe.code.leetcode.problem.dp;
 
 public class P_152 {
-    /*
-    * 152. Maximum Product Subarray
-    * 以 i 为结尾的最大，最小
-     * */
+
     public int maxProduct(int[] nums) {
-        int res = nums[0], max = nums[0], min = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            int cmax = Math.max(nums[i], Math.max(max * nums[i], min * nums[i]));
-            int cmin = Math.min(nums[i], Math.min(max * nums[i], min * nums[i]));
-            res = Math.max(res, cmax);
-            max = cmax; min = cmin;
+        int res = Integer.MIN_VALUE, max = 1, min = 1;
+        for (int num : nums) {
+            int curMax = Math.max(num, Math.max(num * max, num * min));
+            int curMin = Math.min(num, Math.min(num * max, num * min));
+            res = Math.max(curMax, res);
+            max = curMax; min = curMin;
         }
-        return max;
+        return res;
     }
 }
