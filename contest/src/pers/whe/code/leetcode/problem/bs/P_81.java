@@ -24,7 +24,7 @@ public class P_81 {
                 l++;
             }
         }
-        return nums[l] == target;
+        return nums[r] == target;
     }
 
 }
